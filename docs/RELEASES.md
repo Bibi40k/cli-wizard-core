@@ -9,6 +9,15 @@ Notes:
 
 TBD
 
+v0.1.2 (2026-03-01)
+Highlights:
+
+- Fixed Shields badges owner casing in README to avoid intermittent `repo not found`.
+
+Notes:
+
+- Documentation-only patch release; no API/runtime changes.
+
 v0.1.1 (2026-03-01)
 Highlights:
 
