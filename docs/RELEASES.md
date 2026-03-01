@@ -9,6 +9,17 @@ Notes:
 
 TBD
 
+v0.1.1 (2026-03-01)
+Highlights:
+
+- Added repository hardening docs: `SECURITY.md` and `CONTRIBUTING.md`.
+- Standardized release notes format with explicit release date entries.
+
+Notes:
+
+- No API breaking changes.
+- No functional runtime changes in wizard session/step behavior.
+
 v0.1.0 (2026-03-01)
 Highlights:
 
