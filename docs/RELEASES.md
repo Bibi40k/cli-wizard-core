@@ -5,6 +5,7 @@ Highlights:
 
 - Added generic `Manage` flow for list-based resources:
   create, edit existing, delete, set default, cancel.
+- Added `FormatMenuLabel` helper for consistent two-column CLI menu alignment.
 
 Notes:
 
