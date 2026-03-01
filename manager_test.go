@@ -82,3 +82,25 @@ func TestManageSetDefault(t *testing.T) {
 		t.Fatalf("expected selected item b, got %#v", sel.Item)
 	}
 }
+
+func TestManageBackFromItemSelection(t *testing.T) {
+	sel, err := Manage(ManageOptions[string]{
+		Items:       []string{"a", "b"},
+		ItemLabel:   func(item string) string { return item },
+		MainMessage: "Action:",
+		ItemMessage: "Item:",
+		Select: func(options []string, defaultOption, message string) string {
+			if message == "Action:" {
+				return "Edit existing"
+			}
+			return "Back"
+		},
+		CancelLabel: "Back",
+	})
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if sel.Action != ManageCancel {
+		t.Fatalf("expected cancel action when Back is selected, got %q", sel.Action)
+	}
+}

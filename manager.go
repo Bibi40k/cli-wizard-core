@@ -85,7 +85,12 @@ func Manage[T any](opts ManageOptions[T]) (ManageSelection[T], error) {
 	if defaultItem == "" && len(labels) > 0 {
 		defaultItem = labels[0]
 	}
-	chosen := opts.Select(labels, defaultItem, itemMessage)
+	itemOptions := append([]string{}, labels...)
+	itemOptions = append(itemOptions, cancelLabel)
+	chosen := opts.Select(itemOptions, defaultItem, itemMessage)
+	if chosen == cancelLabel {
+		return ManageSelection[T]{Action: ManageCancel}, nil
+	}
 	idx, ok := indexByLabel[chosen]
 	if !ok {
 		return ManageSelection[T]{Action: ManageCancel}, nil
