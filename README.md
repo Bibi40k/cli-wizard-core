@@ -14,6 +14,8 @@ Reusable core primitives for interactive CLI wizards in Go.
 - `Manage`: generic create/edit/delete/default action flow for list-based resources
 - `FormatMenuLabel`: aligned two-column menu labels (`[tag]` + text)
 - `Colorize`: ANSI color wrapper for labels/messages
+- `NewUserError` / `WithHint`: attach actionable hints to user-facing errors
+- `FormatCLIError`: consistent colored error+hint output for CLIs
 
 The package is intentionally transport-agnostic: no direct dependency on survey/readline/TTY, no provider-specific logic (VMware, Talos, etc.).
 

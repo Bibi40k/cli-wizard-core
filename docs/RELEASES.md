@@ -8,6 +8,8 @@ Highlights:
 - Added `FormatMenuLabel` helper for consistent two-column CLI menu alignment.
 - `FormatMenuLabel` now supports empty tag values for aligned untagged rows (e.g. `Exit`).
 - Added `Colorize` helper for consistent ANSI color wrapping without duplicated reset logic.
+- Added reusable user-facing error helpers:
+  `NewUserError`, `WithHint`, `ErrorHint`, `FormatCLIError`.
 
 Notes:
 
