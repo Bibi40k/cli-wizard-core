@@ -16,6 +16,7 @@ Reusable core primitives for interactive CLI wizards in Go.
 - `Colorize`: ANSI color wrapper for labels/messages
 - `NewUserError` / `WithHint`: attach actionable hints to user-facing errors
 - `FormatCLIError`: consistent colored error+hint output for CLIs
+- `ReconcileWithTemplate`: generic template sync for config objects (`added/removed/missing-required` report)
 
 The package is intentionally transport-agnostic: no direct dependency on survey/readline/TTY, no provider-specific logic (VMware, Talos, etc.).
 
@@ -44,4 +45,26 @@ _ = wizard.RunSteps([]wizard.Step{
     {Name: "Step 1", Run: step1},
     {Name: "Step 2", Run: step2},
 }, onStart, onDone)
+
+template := map[string]any{
+    "vm": map[string]any{
+        "name":       "",
+        "profile":    "talos",
+        "ip_address": "",
+    },
+}
+current := map[string]any{
+    "vm": map[string]any{
+        "name":     "cp-01",
+        "username": "",
+    },
+}
+
+out, report, err := wizard.ReconcileWithTemplate(current, template, wizard.ReconcileOptions{
+    DropUnknown:   true,
+    RequiredPaths: []string{"vm.name", "vm.ip_address"},
+})
+_ = out
+_ = report
+_ = err
 ```
