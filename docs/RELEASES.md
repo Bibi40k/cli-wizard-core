@@ -3,17 +3,23 @@ Release Notes
 Unreleased
 Highlights:
 
-- Added generic `Manage` flow for list-based resources:
-  create, edit existing, delete, set default, cancel.
-- Added `FormatMenuLabel` helper for consistent two-column CLI menu alignment.
-- `FormatMenuLabel` now supports empty tag values for aligned untagged rows (e.g. `Exit`).
-- Added `Colorize` helper for consistent ANSI color wrapping without duplicated reset logic.
-- Added reusable user-facing error helpers:
-  `NewUserError`, `WithHint`, `ErrorHint`, `FormatCLIError`.
+- TBD
+
+Notes:
+
+- TBD
+
+v0.1.5 (2026-03-05)
+Highlights:
+
+- Added generic `ReconcileWithTemplate` API for template-driven config sync.
+- Added reconcile report with `added`, `removed`, and `missing-required` paths.
+- Added tests for nested merge, unknown-key removal, and required-path validation.
 
 Notes:
 
 - Core remains provider-agnostic (no Talos/VMware domain logic).
+- Designed for reuse across repositories as the shared config sync primitive.
 
 v0.1.2 (2026-03-01)
 Highlights:
