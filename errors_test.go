@@ -61,3 +61,16 @@ func TestFormatCLIError_WithoutHint(t *testing.T) {
 		t.Fatalf("did not expect hint label, got %q", out)
 	}
 }
+
+func TestIsInterrupted(t *testing.T) {
+	if !IsInterrupted(ErrInterrupted) {
+		t.Fatal("expected sentinel to be recognized")
+	}
+	wrapped := WithHint(ErrInterrupted, "stop")
+	if !IsInterrupted(wrapped) {
+		t.Fatal("expected wrapped interrupted sentinel to be recognized")
+	}
+	if IsInterrupted(errors.New("other")) {
+		t.Fatal("unexpected interrupted match")
+	}
+}

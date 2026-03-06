@@ -16,6 +16,15 @@ type hintProvider interface {
 	Hint() string
 }
 
+// ErrInterrupted is the shared sentinel used by wizard consumers
+// to propagate Ctrl+C / prompt interruption consistently.
+var ErrInterrupted = errors.New("wizard interrupted")
+
+// IsInterrupted reports whether err is or wraps ErrInterrupted.
+func IsInterrupted(err error) bool {
+	return errors.Is(err, ErrInterrupted)
+}
+
 // UserError is a user-facing error with an optional actionable hint.
 type UserError struct {
 	Message string
