@@ -7,6 +7,10 @@
 
 Reusable core primitives for interactive CLI wizards in Go.
 
+## Behavioral Contract
+This library defines shared wizard behavior contracts used by consumer repos.
+- Interrupt handling contract: [docs/decisions/2026-03-06-wizard-interrupt-contract.md](docs/decisions/2026-03-06-wizard-interrupt-contract.md)
+
 ## What it provides
 
 - `Session`: draft lifecycle orchestration (load/start/stop/finalize)
