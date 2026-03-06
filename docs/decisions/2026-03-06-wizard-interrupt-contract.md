@@ -12,22 +12,28 @@ Multiple repositories reuse wizard-style CLI flows. Regressions appeared where `
 This creates operator confusion and unpredictable automation behavior.
 
 ## Decision
-`Ctrl+C` is standardized as a strict interrupt contract:
-1. In any wizard step prompt, first `Ctrl+C` must abort the current flow immediately.
-2. Interrupt must propagate up to the top-level manager unless the flow explicitly documents local-cancel semantics.
-3. No silent conversion of interrupt into default value, `Back`, or `continue`.
-4. `Back`/`Exit` remain explicit menu choices only (keyboard navigation + Enter).
-5. Draft save behavior is explicit per flow:
-   - create flow: may save draft;
-   - edit flow: no draft side-effects unless explicitly designed and documented.
+`Ctrl+C` is standardized with explicit semantics by flow type:
+1. **Create config flow**:
+   - first `Ctrl+C` aborts immediately;
+   - save plaintext draft;
+   - return to current manager menu (do not exit app).
+2. **Edit config flow**:
+   - first `Ctrl+C` aborts immediately;
+   - persist current in-memory changes to the edited config;
+   - return to current manager menu (do not exit app).
+3. **Menu/submenu navigation flow**:
+   - first `Ctrl+C` exits the application immediately.
+4. No silent conversion of interrupt into default value or implicit `Back`.
+5. `Back`/`Exit` remain explicit menu choices only (keyboard navigation + Enter).
 
 ## Required Acceptance Checks
 For each consumer repo integrating this library:
 1. `Ctrl+C` from root menu exits immediately.
-2. `Ctrl+C` from nested menu exits according to contract (no accidental back-loop).
-3. `Ctrl+C` from selector prompts (`survey`/custom raw mode) exits on first keypress.
-4. `Ctrl+C` from line prompts (`readline`) exits on first keypress.
-5. No save/rename side-effects after interrupt.
+2. `Ctrl+C` from nested submenu exits the app (not implicit back loop).
+3. `Ctrl+C` during create saves draft and returns to current manager menu.
+4. `Ctrl+C` during edit saves changes and returns to current manager menu.
+5. `Ctrl+C` from selector prompts (`survey`/custom raw mode) is handled on first keypress.
+6. `Ctrl+C` from line prompts (`readline`) is handled on first keypress.
 
 ## Consequences
 - Predictable UX across repositories.
