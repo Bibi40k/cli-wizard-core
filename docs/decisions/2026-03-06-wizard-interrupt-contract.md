@@ -28,6 +28,7 @@ This creates operator confusion and unpredictable automation behavior.
 6. `Back`/`Exit` labels remain plain by default; highlight color is applied by the active selector only when selected.
 7. Selector hint is standardized as: `[Use arrows to move, type to filter, Esc=Back, Ctrl+C=Exit]`.
 8. Shared wizard behavior changes are implemented in `cli-wizard-core` first; consumer repos must not keep divergent local copies of shared selector/interrupt logic.
+9. Action-only menus use aligned verb columns via shared formatter (e.g. `Create    ...`, `Edit      ...`, `Delete    ...`) for consistent scanning UX.
 
 ## Required Acceptance Checks
 For each consumer repo integrating this library:

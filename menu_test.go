@@ -55,6 +55,29 @@ func TestSelectHint(t *testing.T) {
 	}
 }
 
+func TestFormatActionLabel(t *testing.T) {
+	got := FormatActionLabel("Create new cluster spec", 9)
+	want := "Create    new cluster spec"
+	if got != want {
+		t.Fatalf("unexpected action label: got %q want %q", got, want)
+	}
+	if FormatActionLabel("Back", 9) != "Back" {
+		t.Fatalf("Back should stay plain")
+	}
+	if FormatActionLabel("Exit", 9) != "Exit" {
+		t.Fatalf("Exit should stay plain")
+	}
+}
+
+func TestActionVerb(t *testing.T) {
+	if ActionVerb("Create    new cluster spec") != "Create" {
+		t.Fatalf("unexpected verb")
+	}
+	if ActionVerb(Colorize("Delete   config", "\033[31m")) != "Delete" {
+		t.Fatalf("unexpected verb with ansi")
+	}
+}
+
 func TestColorize_EmptyColor(t *testing.T) {
 	got := Colorize("abc", "")
 	if got != "abc" {

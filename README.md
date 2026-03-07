@@ -17,6 +17,7 @@ This library defines shared wizard behavior contracts used by consumer repos.
 - `RunSteps`: deterministic step runner with start/done callbacks
 - `Manage`: generic create/edit/delete/default action flow for list-based resources
 - `FormatMenuLabel`: aligned two-column menu labels (`[tag]` + text)
+- `FormatActionLabel` / `ActionVerb`: aligned action-menu labels (`Create/Edit/...`) + robust action dispatch
 - `Colorize`: ANSI color wrapper for labels/messages
 - `BackLabel` / `BackMenuLabel` / `IsBackChoice`: consistent Back UX primitives
 - `ExitLabel` / `ExitMenuLabel` / `IsExitChoice`: consistent Exit UX primitives

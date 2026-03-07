@@ -55,6 +55,38 @@ func SelectHint() string {
 	return "[Use arrows to move, type to filter, Esc=Back, Ctrl+C=Exit]"
 }
 
+// FormatActionLabel aligns action menus as two columns: verb + description.
+// "Back"/"Exit" remain plain.
+func FormatActionLabel(text string, verbWidth int) string {
+	trimmed := strings.TrimSpace(text)
+	if trimmed == "" {
+		return trimmed
+	}
+	if IsBackChoice(trimmed) || IsExitChoice(trimmed) {
+		return NormalizeChoice(trimmed)
+	}
+	if verbWidth <= 0 {
+		verbWidth = 9
+	}
+	fields := strings.Fields(trimmed)
+	if len(fields) < 2 {
+		return trimmed
+	}
+	verb := fields[0]
+	rest := strings.TrimSpace(strings.TrimPrefix(trimmed, verb))
+	return fmt.Sprintf("%-*s %s", verbWidth, verb, rest)
+}
+
+// ActionVerb returns the first word from an action label (after ANSI normalization).
+func ActionVerb(text string) string {
+	trimmed := NormalizeChoice(text)
+	fields := strings.Fields(trimmed)
+	if len(fields) == 0 {
+		return ""
+	}
+	return fields[0]
+}
+
 // NormalizeChoice strips ANSI colors and trims whitespace for robust comparisons.
 func NormalizeChoice(value string) string {
 	return strings.TrimSpace(ansiEscapeRE.ReplaceAllString(value, ""))
