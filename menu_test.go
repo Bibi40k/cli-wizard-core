@@ -26,6 +26,18 @@ func TestFormatMenuLabel_EmptyTag(t *testing.T) {
 	}
 }
 
+func TestBackHelpers(t *testing.T) {
+	if !IsBackChoice("Back") {
+		t.Fatalf("expected plain Back to be recognized")
+	}
+	if !IsBackChoice(BackLabel()) {
+		t.Fatalf("expected colored BackLabel to be recognized")
+	}
+	if !IsBackChoice(BackMenuLabel(16)) {
+		t.Fatalf("expected colored BackMenuLabel to be recognized")
+	}
+}
+
 func TestColorize_EmptyColor(t *testing.T) {
 	got := Colorize("abc", "")
 	if got != "abc" {
