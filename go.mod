@@ -1,4 +1,4 @@
-module github.com/Bibi40k/cli-wizard-core
+module github.com/infrakit-io/cli-wizard-core
 
 go 1.26.0
 
