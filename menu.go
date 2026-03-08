@@ -101,3 +101,8 @@ func IsBackChoice(value string) bool {
 func IsExitChoice(value string) bool {
 	return strings.EqualFold(NormalizeChoice(value), "Exit")
 }
+
+// IsCancelChoice checks whether a selected value maps to Cancel.
+func IsCancelChoice(value string) bool {
+	return strings.EqualFold(NormalizeChoice(value), "Cancel")
+}
