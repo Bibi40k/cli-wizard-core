@@ -12,13 +12,26 @@ type ReconcileOptions struct {
 	DropUnknown bool
 	// RequiredPaths are dot-notation keys that must exist after reconcile.
 	RequiredPaths []string
+	// CheckPlaceholders, when true, checks required paths for empty/CHANGE_ME values.
+	CheckPlaceholders bool
 }
 
 // ReconcileReport summarizes changes and validation findings.
 type ReconcileReport struct {
-	Added           []string
-	Removed         []string
-	MissingRequired []string
+	Added             []string
+	Removed           []string
+	MissingRequired   []string
+	PlaceholderValues []string
+}
+
+// IsPlaceholderValue returns true if v is empty, nil, or contains "CHANGE_ME".
+func IsPlaceholderValue(v any) bool {
+	s, ok := v.(string)
+	if !ok {
+		return v == nil
+	}
+	s = strings.TrimSpace(s)
+	return s == "" || strings.Contains(strings.ToUpper(s), "CHANGE_ME")
 }
 
 // ReconcileWithTemplate syncs a config object against a template object.
@@ -39,9 +52,13 @@ func ReconcileWithTemplate(current, template map[string]any, opts ReconcileOptio
 	}
 	reconcileObject("", out, template, opts.DropUnknown, &report)
 	report.MissingRequired = append(report.MissingRequired, findMissingRequired(out, opts.RequiredPaths)...)
+	if opts.CheckPlaceholders {
+		report.PlaceholderValues = append(report.PlaceholderValues, findPlaceholderValues(out, opts.RequiredPaths, report.MissingRequired)...)
+	}
 	sort.Strings(report.Added)
 	sort.Strings(report.Removed)
 	sort.Strings(report.MissingRequired)
+	sort.Strings(report.PlaceholderValues)
 	return out, report, nil
 }
 
@@ -85,6 +102,43 @@ func findMissingRequired(data map[string]any, required []string) []string {
 		}
 	}
 	return missing
+}
+
+// findPlaceholderValues returns required paths whose values are placeholders,
+// excluding paths already in missing (which don't exist at all).
+func findPlaceholderValues(data map[string]any, required []string, missing []string) []string {
+	missingSet := make(map[string]struct{}, len(missing))
+	for _, p := range missing {
+		missingSet[p] = struct{}{}
+	}
+	result := make([]string, 0)
+	for _, p := range required {
+		p = strings.TrimSpace(p)
+		if p == "" {
+			continue
+		}
+		if _, isMissing := missingSet[p]; isMissing {
+			continue
+		}
+		v := getPath(data, p)
+		if IsPlaceholderValue(v) {
+			result = append(result, p)
+		}
+	}
+	return result
+}
+
+func getPath(data map[string]any, path string) any {
+	parts := strings.Split(path, ".")
+	var cur any = data
+	for _, part := range parts {
+		m, ok := cur.(map[string]any)
+		if !ok {
+			return nil
+		}
+		cur = m[part]
+	}
+	return cur
 }
 
 func hasPath(data map[string]any, path string) bool {
