@@ -1,9 +1,9 @@
 # cli-wizard-core
 
-[![CI](https://github.com/Bibi40k/cli-wizard-core/actions/workflows/ci.yml/badge.svg)](https://github.com/Bibi40k/cli-wizard-core/actions/workflows/ci.yml)
-[![Release](https://github.com/Bibi40k/cli-wizard-core/actions/workflows/release.yml/badge.svg)](https://github.com/Bibi40k/cli-wizard-core/actions/workflows/release.yml)
-[![Go Version](https://img.shields.io/github/go-mod/go-version/bibi40k/cli-wizard-core)](https://github.com/Bibi40k/cli-wizard-core/blob/main/go.mod)
-[![License](https://img.shields.io/github/license/bibi40k/cli-wizard-core)](https://github.com/Bibi40k/cli-wizard-core/blob/main/LICENSE)
+[![CI](https://github.com/infrakit-io/cli-wizard-core/actions/workflows/ci.yml/badge.svg)](https://github.com/infrakit-io/cli-wizard-core/actions/workflows/ci.yml)
+[![Release](https://github.com/infrakit-io/cli-wizard-core/actions/workflows/release.yml/badge.svg)](https://github.com/infrakit-io/cli-wizard-core/actions/workflows/release.yml)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/infrakit-io/cli-wizard-core)](https://github.com/infrakit-io/cli-wizard-core/blob/main/go.mod)
+[![License](https://img.shields.io/github/license/infrakit-io/cli-wizard-core)](https://github.com/infrakit-io/cli-wizard-core/blob/main/LICENSE)
 
 Reusable core primitives for interactive CLI wizards in Go.
 
@@ -31,13 +31,13 @@ The package is intentionally transport-agnostic: no direct dependency on survey/
 ## Install
 
 ```bash
-go get github.com/Bibi40k/cli-wizard-core
+go get github.com/infrakit-io/cli-wizard-core
 ```
 
 ## Usage
 
 ```go
-import wizard "github.com/Bibi40k/cli-wizard-core"
+import wizard "github.com/infrakit-io/cli-wizard-core"
 
 session := wizard.NewSession(
     targetPath,
