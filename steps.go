@@ -1,5 +1,10 @@
 package wizard
 
+import (
+	"fmt"
+	"strings"
+)
+
 // Step defines one wizard action.
 type Step struct {
 	Name string
@@ -23,4 +28,22 @@ func RunSteps(steps []Step, onStepStart func(index, total int, name string), onS
 		}
 	}
 	return nil
+}
+
+// DefaultRunSteps executes steps with standard [N/M] progress formatting.
+// Named steps print "[N/M] name" on start; a blank line separates non-final steps.
+func DefaultRunSteps(steps []Step) error {
+	return RunSteps(
+		steps,
+		func(index, total int, name string) {
+			if strings.TrimSpace(name) != "" {
+				fmt.Printf("[%d/%d] %s\n", index, total, name)
+			}
+		},
+		func(index, total int) {
+			if index < total {
+				fmt.Println()
+			}
+		},
+	)
 }
